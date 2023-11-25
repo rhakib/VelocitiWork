@@ -115,11 +115,13 @@ const EmployeeList = () => {
                                 </div>
                             </Table.Cell>
                             <Table.Cell>
-                                <button>
+                                {
+                                    user?.verified == 'no' ? <p className=" bg-gray-500 text-white w-14 rounded-3xl px-4 py-2">Pay</p> :  <button>
                                     <Button className="rounded-3xl" size="sm" type="primary">
                                         Pay
                                     </Button>
                                 </button>
+                                }
                             </Table.Cell>
                             <Table.Cell>
                                 <button>
