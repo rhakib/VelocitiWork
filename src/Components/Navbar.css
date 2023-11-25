@@ -1,0 +1,15 @@
+.navbarText .text-metal-600 {
+    color: white;
+}
+
+/* .nav .active {
+    border: 1px solid gray;
+
+    
+} */
+
+
+.nav .active {
+   color: burlywood;
+   font-weight: bold;
+}

@@ -7,9 +7,11 @@ const Root = () => {
     return (
         <div>
             <NavBar></NavBar>
-            <Outlet></Outlet>
+            <div className='bg-black'>
+                <Outlet></Outlet>
+            </div>
             <Footer></Footer>
-            <Toaster position="top-center"/>
+            <Toaster position="top-center" />
         </div>
     );
 };

@@ -1,0 +1,22 @@
+[
+    {
+        "_id": "65622c14455cd32d1ea7e538",
+        "name": "Rakibul Hasan",
+        "role": "Employee",
+        "email": "shantorakib.sr@gmail.com",
+        "photo": "https://i.ibb.co/fvnmMzZ/rsz-img-20220829-120621.jpg",
+        "designation": "Web Developer",
+        "salary": "50000",
+        "bankAccount": "1825478128547826"
+    },
+    {
+        "_id": "65622c14455cd32d1ea7e538",
+        "name": "Akib Hasan",
+        "role": "Employee",
+        "email": "akib.sr@gmail.com",
+        "photo": "https://i.ibb.co/fvnmMzZ/rsz-img-20220829-120621.jpg",
+        "designation": "Graphic Designer",
+        "salary": "50000",
+        "bankAccount": "1825478128547826"
+    }
+]
