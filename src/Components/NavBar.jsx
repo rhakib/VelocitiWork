@@ -16,7 +16,7 @@ const NavBar = () => {
                         <Navbar.Divider></Navbar.Divider>
                         <Navbar.Container
                             tag="ul"
-                            className="lg:flex hidden navbarText text-white items-center justify-between gap-8">
+                            className="lg:flex hidden nav navbarText text-white items-center justify-between gap-8">
                             <NavLink to='/'><Navbar.Link linkName="Home" /></NavLink>
                             <NavLink to='/dashboard'><Navbar.Link linkName="Dashboard" /></NavLink>
                             <NavLink to='/contact' className={({ isActive }) => isActive ? 'btn btn-outline btn-sm' : 'btn btn-ghost btn-sm'} ><Navbar.Link linkName="Contact Us" /></NavLink>

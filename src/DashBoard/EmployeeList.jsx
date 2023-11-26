@@ -1,27 +1,24 @@
-import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
-import { Avatar, Badge, Button, Popover, Table } from "keep-react";
-import { DotsThreeOutline, Pencil, Trash, } from "phosphor-react";
+import { Avatar, Badge, Button, DatePicker, Modal, Table } from "keep-react";
 import { MdOutlineCancel } from "react-icons/md";
 import Swal from "sweetalert2";
+import { useState } from "react";
+import useGetUsers from "../Hooks/useGetUsers";
+import Payments from "./Payments/Payments";
 
 
 
 const EmployeeList = () => {
 
     const axiosSecure = useAxiosSecure()
+    const [showModal, setShowModal] = useState(false);
+    const [user, setUser] = useState(null)
 
-    const getUsers = async () => {
-        const res = await axiosSecure.get('/users')
-        return res.data;
-    }
+    const [users, refetch] = useGetUsers()
 
-    const { data: users, refetch } = useQuery({
-        queryKey: ['users'],
-        queryFn: getUsers
-    })
 
-    console.log(users);
+
+
 
     const handleVerified = (user) => {
 
@@ -41,8 +38,54 @@ const EmployeeList = () => {
 
     }
 
+    const onClick = (user) => {
+        setUser(user)
+        setShowModal(!showModal);
+    };
+
+    // const handlePay = async (user) => {
+
+    //     const paymentInfo = {
+    //         salary: user?.salary,
+    //         month: payMonth
+    //     }
+
+    //     const res = await axiosSecure.post('/payments', paymentInfo)
+    //     console.log(res.data);
+    //     if (res.data.insertedId) {
+    //         Swal.fire({
+    //             title: "Paid!",
+    //             text: `Successfully paid to ${user.name}`,
+    //             icon: "success"
+    //         });
+    //     }
+
+    //     setShowModal(!showModal);
+    // }
+
     return (
         <div className="max-w-5xl">
+            <Modal
+                size="md"
+                show={showModal}
+                position="top-center"
+            >
+                <Modal.Header>Select which month you want to pay to {user?.name}</Modal.Header>
+                <Modal.Body>
+                    <div className="space-y-6">
+                        <p className="text-body-4 text-xl font-semibold leading-relaxed text-metal-500">
+                            Salary: {user?.salary}
+                        </p>
+                        <Payments user={user} showModal={showModal} setShowModal={setShowModal}></Payments>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button type="outlineGray" onClick={onClick}>
+                        Cancel
+                    </Button>
+
+                </Modal.Footer>
+            </Modal>
             <Table
                 showCheckbox={true}
                 showBorder={true}
@@ -116,11 +159,11 @@ const EmployeeList = () => {
                             </Table.Cell>
                             <Table.Cell>
                                 {
-                                    user?.verified == 'no' ? <p className=" bg-gray-500 text-white w-14 rounded-3xl px-4 py-2">Pay</p> :  <button>
-                                    <Button className="rounded-3xl" size="sm" type="primary">
-                                        Pay
-                                    </Button>
-                                </button>
+                                    user?.verified == 'no' ? <p className=" bg-gray-500 text-white w-14 rounded-3xl px-4 py-2">Pay</p> :
+                                        <Button className="rounded-3xl" size="sm" type='primary' onClick={() => onClick(user)}>Pay</Button>
+
+
+
                                 }
                             </Table.Cell>
                             <Table.Cell>

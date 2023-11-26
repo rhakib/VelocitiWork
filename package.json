@@ -11,9 +11,12 @@
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.0.15",
+    "@stripe/react-stripe-js": "^2.4.0",
+    "@stripe/stripe-js": "^2.2.0",
     "@tanstack/react-query": "^5.8.7",
     "axios": "^1.6.2",
     "firebase": "^10.6.0",
+    "flowbite": "^2.2.0",
     "keep-react": "^1.0.2",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",

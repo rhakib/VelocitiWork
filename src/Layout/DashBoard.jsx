@@ -11,7 +11,7 @@ const DashBoard = () => {
                 <div className='w-64 min-h-screen bg-slate-700 text-white border-2 border-gray-500 '>
                     <ul className='flex nav flex-col gap-3 p-10 font-semibold text-xl'>
                         <li className='border px-8 rounded-md py-2'><NavLink to='/dashboard/hrhome'>HR Home</NavLink></li>
-                        <li className='border pl-6 rounded-md py-2'><NavLink to='/dashboard/employeelist'>Employee List</NavLink></li>
+                        <li className='border pl-3 rounded-md py-2'><NavLink to='/dashboard/employeelist'>Employee List</NavLink></li>
                         <li className='border px-10 rounded-md py-2'><NavLink to='/dashboard/progress'>Progress</NavLink></li>
                     </ul>
                 </div>
