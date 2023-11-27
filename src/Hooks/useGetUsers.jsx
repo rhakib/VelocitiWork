@@ -11,13 +11,13 @@ const useGetUsers = () => {
         return res.data;
     }
 
-    const { data: users, refetch } = useQuery({
+    const { data: users, refetch, isLoading } = useQuery({
         queryKey: ['users'],
         queryFn: getUsers
     })
 
 
-    return [users, refetch]
+    return [users, refetch, isLoading]
 };
 
 export default useGetUsers;

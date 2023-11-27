@@ -6,14 +6,14 @@ import CheckOutForm from './CheckOutForm';
 const stripePromise = loadStripe(import.meta.env.VITE_Payment_Gateway_key)
 
 
-const Payments = ({user}) => {
+const Payments = ({user,  setShowModal, showModal}) => {
     
     
     
     return (
         <div>
             <Elements stripe={stripePromise}>
-                    <CheckOutForm user={user}></CheckOutForm>
+                    <CheckOutForm setShowModal={setShowModal} showModal={showModal} user={user}></CheckOutForm>
                 </Elements>
         </div>
     );

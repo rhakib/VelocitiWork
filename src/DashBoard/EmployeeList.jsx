@@ -1,10 +1,11 @@
 import useAxiosSecure from "../Hooks/useAxiosSecure";
-import { Avatar, Badge, Button, DatePicker, Modal, Table } from "keep-react";
-import { MdOutlineCancel } from "react-icons/md";
+import { Avatar, Badge, Button, Modal, Table } from "keep-react";
+import { MdOutlineCancel, MdVerified, } from "react-icons/md";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import useGetUsers from "../Hooks/useGetUsers";
 import Payments from "./Payments/Payments";
+import { Spinner } from "keep-react";
 
 
 
@@ -14,7 +15,7 @@ const EmployeeList = () => {
     const [showModal, setShowModal] = useState(false);
     const [user, setUser] = useState(null)
 
-    const [users, refetch] = useGetUsers()
+    const [users, refetch, isLoading] = useGetUsers()
 
 
 
@@ -43,40 +44,24 @@ const EmployeeList = () => {
         setShowModal(!showModal);
     };
 
-    // const handlePay = async (user) => {
-
-    //     const paymentInfo = {
-    //         salary: user?.salary,
-    //         month: payMonth
-    //     }
-
-    //     const res = await axiosSecure.post('/payments', paymentInfo)
-    //     console.log(res.data);
-    //     if (res.data.insertedId) {
-    //         Swal.fire({
-    //             title: "Paid!",
-    //             text: `Successfully paid to ${user.name}`,
-    //             icon: "success"
-    //         });
-    //     }
-
-    //     setShowModal(!showModal);
-    // }
 
     return (
         <div className="max-w-5xl">
+            {
+                isLoading && <div className='flex my-4 justify-center'><Spinner color="info" size="lg" /></div>
+            }
             <Modal
                 size="md"
                 show={showModal}
                 position="top-center"
             >
-                <Modal.Header>Select which month you want to pay to {user?.name}</Modal.Header>
+                <Modal.Header>Pay to <span className="text-blue-600">{user?.name}</span></Modal.Header>
                 <Modal.Body>
                     <div className="space-y-6">
                         <p className="text-body-4 text-xl font-semibold leading-relaxed text-metal-500">
                             Salary: {user?.salary}
                         </p>
-                        <Payments user={user} showModal={showModal} setShowModal={setShowModal}></Payments>
+                        <Payments  user={user} showModal={showModal} setShowModal={setShowModal}></Payments>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
@@ -142,7 +127,7 @@ const EmployeeList = () => {
                             </Table.Cell>
                             <Table.Cell>{user?.email}</Table.Cell>
                             <Table.Cell>
-                                {user?.verified === 'yes' ? <p>Verified</p> : <button onClick={() => handleVerified(user)}><MdOutlineCancel className="text-2xl text-red-500"></MdOutlineCancel></button>}
+                                {user?.verified === 'yes' ? <MdVerified className="text-blue-600 text-2xl"></MdVerified>  : <button onClick={() => handleVerified(user)}><MdOutlineCancel className="text-2xl text-red-500"></MdOutlineCancel></button>}
                             </Table.Cell>
                             <Table.Cell>
                                 <div className="flex items-center gap-3">
@@ -154,7 +139,7 @@ const EmployeeList = () => {
                             </Table.Cell>
                             <Table.Cell>
                                 <div className="flex items-center gap-1">
-                                    {user?.salary}
+                                    ${user?.salary}
                                 </div>
                             </Table.Cell>
                             <Table.Cell>

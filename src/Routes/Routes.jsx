@@ -7,6 +7,10 @@ import Contact from "../Pages/Contact";
 import DashBoard from "../Layout/DashBoard";
 import EmployeeList from "../DashBoard/EmployeeList";
 import HrHome from "../DashBoard/HrHome";
+import PaymentHistory from "../DashBoard/Payments/PaymentHistory";
+import WorkSheet from "../DashBoard/WorkSheet";
+import UserHome from "../DashBoard/UserHome";
+import Progress from "../DashBoard/Progress";
 
 
 const router = createBrowserRouter([
@@ -43,6 +47,22 @@ const router = createBrowserRouter([
       {
         path: 'hrhome',
         element: <HrHome></HrHome>
+      },
+      {
+        path: 'paymentHistory',
+        element: <PaymentHistory></PaymentHistory>
+      },
+      {
+        path: 'workSheet',
+        element: <WorkSheet></WorkSheet>
+      },
+      {
+        path: 'userHome',
+        element: <UserHome></UserHome>
+      },
+      {
+        path: 'progress',
+        element: <Progress></Progress>
       }
     ]
   }
