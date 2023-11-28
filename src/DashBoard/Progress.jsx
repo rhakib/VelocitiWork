@@ -9,24 +9,25 @@ const Progress = () => {
 
     const axiosSecure = useAxiosSecure()
     const [name, setName] = useState('')
-    const [month, setMonth] = useState('')
+    const [date, setDate] = useState('')
     const { user } = useAuth()
     const [users, , ] = useGetUsers()
 
 
-    console.log(name, month);
+    console.log(name, date);
 
     const getTasks = async () => {
-        const res = await axiosSecure.get(`/tasks?name=${name}&month=${month}`)
+        const res = await axiosSecure.get(`/tasks?name=${name}&date=${date}`)
+        console.log(res);
         return res.data;
     }
 
     const { data: tasks, isLoading, refetch } = useQuery({
-        queryKey: ['tasks', name, month],
+        queryKey: ['tasks', name, date],
         queryFn: getTasks
     })
     console.log(tasks);
-    refetch()
+  
 
    
     return (
@@ -36,7 +37,7 @@ const Progress = () => {
             }
 
             <Table className='mb-6'
-                showCheckbox={true}
+                showCheckbox={false}
                 showBorder={true}
                 showBorderPosition="right"
                 striped={true}
@@ -60,17 +61,30 @@ const Progress = () => {
                                 }
 
                             </select>
-                            <select onChange={(e) => setMonth(e.target.value)}  required={true} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option selected>Sort by Month </option>
-                                {
-                                    tasks?.map(name=> <option key={name.month} value={name?.month}>{name?.month}</option>)
-                                }
+                            <select onChange={(e) => setDate(e.target.value)}  required={true} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option selected disabled>Sort by Month </option>
+                                <option value='Jan'>Jan, 23 </option>
+                                <option value='Feb'>Feb, 23 </option>
+                                <option value='Mar'>March, 23 </option>
+                                <option value='Apr'>April, 23 </option>
+                                <option value='May'>May, 23 </option>
+                                <option value='Jun'>June, 23 </option>
+                                <option value='Jul'>July, 23 </option>
+                                <option value='Aug'>Aug, 23 </option>
+                                <option value='Sep'>Sept, 23 </option>
+                                <option value='Oct'>Oct, 23 </option>
+                                <option value='Nov'>Nov, 23 </option>
+                                <option value='Dec'>Dec, 23 </option>
+                               
                                 
                             </select>
                         </div>
                     </div>
                 </Table.Caption>
                 <Table.Head className='text-lg'>
+                    <Table.HeadCell className="min-w-[80px]">
+                        <p className="ml-4">#</p>
+                    </Table.HeadCell>
                     <Table.HeadCell className="min-w-[150px]">
                         <p className="">Name</p>
                     </Table.HeadCell>
@@ -83,7 +97,15 @@ const Progress = () => {
                 </Table.Head>
                 <Table.Body className="divide-y divide-gray-25">
                     {
-                        tasks?.map(task => <Table.Row key={task._id} className="bg-white">
+                        tasks?.map((task, idx) => <Table.Row key={task._id} className="bg-white">
+                            <Table.Cell>
+                                <div>
+                                    <p className="-mb-0.5 ml-4 text-body-4 font-medium text-metal-600">
+                                        {idx + 1}
+                                    </p>
+
+                                </div>
+                            </Table.Cell>
                             <Table.Cell>
                                 <div className="flex items-center gap-3">
                                     <div className="flex items-center gap-4">
@@ -113,7 +135,7 @@ const Progress = () => {
                             </Table.Cell>
                             <Table.Cell>
                                 <div className="flex items-center gap-1">
-                                    {task?.hours}
+                                    {task?.hours} hours
                                 </div>
                             </Table.Cell>
                             <Table.Cell>

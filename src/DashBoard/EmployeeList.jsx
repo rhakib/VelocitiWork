@@ -6,6 +6,7 @@ import { useState } from "react";
 import useGetUsers from "../Hooks/useGetUsers";
 import Payments from "./Payments/Payments";
 import { Spinner } from "keep-react";
+import { Link } from "react-router-dom";
 
 
 
@@ -61,7 +62,7 @@ const EmployeeList = () => {
                         <p className="text-body-4 text-xl font-semibold leading-relaxed text-metal-500">
                             Salary: {user?.salary}
                         </p>
-                        <Payments  user={user} showModal={showModal} setShowModal={setShowModal}></Payments>
+                        <Payments user={user} showModal={showModal} setShowModal={setShowModal}></Payments>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
@@ -127,7 +128,7 @@ const EmployeeList = () => {
                             </Table.Cell>
                             <Table.Cell>{user?.email}</Table.Cell>
                             <Table.Cell>
-                                {user?.verified === 'yes' ? <MdVerified className="text-blue-600 text-2xl"></MdVerified>  : <button onClick={() => handleVerified(user)}><MdOutlineCancel className="text-2xl text-red-500"></MdOutlineCancel></button>}
+                                {user?.verified === 'yes' ? <MdVerified className="text-blue-600 text-2xl"></MdVerified> : <button onClick={() => handleVerified(user)}><MdOutlineCancel className="text-2xl text-red-500"></MdOutlineCancel></button>}
                             </Table.Cell>
                             <Table.Cell>
                                 <div className="flex items-center gap-3">
@@ -152,11 +153,11 @@ const EmployeeList = () => {
                                 }
                             </Table.Cell>
                             <Table.Cell>
-                                <button>
+                                <Link to={`/dashboard/employeelist/userdetails/${user?._id}`}>
                                     <Button className="rounded-3xl" size="sm" type="primary">
                                         Details
                                     </Button>
-                                </button>
+                                </Link>
                             </Table.Cell>
                         </Table.Row>)
                     }

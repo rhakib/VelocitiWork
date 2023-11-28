@@ -11,6 +11,9 @@ import PaymentHistory from "../DashBoard/Payments/PaymentHistory";
 import WorkSheet from "../DashBoard/WorkSheet";
 import UserHome from "../DashBoard/UserHome";
 import Progress from "../DashBoard/Progress";
+import AdminHome from "../DashBoard/AdminHome";
+import AllEmployees from "../DashBoard/AllEmployees";
+import UserDetails from "../DashBoard/UserDetails";
 
 
 const router = createBrowserRouter([
@@ -63,6 +66,18 @@ const router = createBrowserRouter([
       {
         path: 'progress',
         element: <Progress></Progress>
+      },
+      {
+        path: 'adminhome',
+        element: <AdminHome></AdminHome>
+      },
+      {
+        path: 'allEmployees',
+        element: <AllEmployees></AllEmployees>
+      },
+      {
+        path: 'employeelist/userdetails/:id',
+        element: <UserDetails></UserDetails>
       }
     ]
   }

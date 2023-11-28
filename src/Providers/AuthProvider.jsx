@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 import { createContext, useEffect, useState } from 'react';
 import { auth } from '../Firebase/firebase.config';
+import useAxiosPublic from '../Hooks/useAxiosPublic';
 
 export const AuthContext = createContext(null)
 
@@ -8,6 +9,7 @@ const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
+    const axiosPublic = useAxiosPublic()
 
     const createUser = (email, password) => {
         setLoading(true)
@@ -31,17 +33,35 @@ const AuthProvider = ({ children }) => {
         return signOut(auth)
     }
 
-    useEffect(()=> {
-        const unSubscribe = onAuthStateChanged(auth, currentUser=> {
-            setLoading(false)
+    useEffect(() => {
+        const unSubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser)
-
+            if (currentUser) {
+                //get a token and store it in client side
+                const userInfo = {
+                    email: currentUser?.email
+                }
+                axiosPublic.post('jwt', userInfo)
+                .then(res =>{
+                    if (res.data.token) {
+                        localStorage.setItem('access-token', res.data.token)
+                        setLoading(false)
+                    }
+                    
+                })
+            }
+            //remove the token if user logout
+            else{
+                localStorage.removeItem('access-token')
+                setLoading(false)
+            }
+            
         })
         return () => {
             return unSubscribe()
         }
 
-    }, [])
+    }, [axiosPublic])
 
 
     const authInfo = {

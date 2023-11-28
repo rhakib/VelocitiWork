@@ -2,12 +2,17 @@ import { NavLink, Outlet } from 'react-router-dom';
 import '../Components/Navbar.css'
 import NavBar from '../Components/NavBar';
 import Footer from '../Components/Footer';
+import useAdmin from '../Hooks/useAdmin';
+import useHR from '../Hooks/useHR';
+import useAuth from '../Hooks/useAuth';
 
 const DashBoard = () => {
 
+    const [isAdmin, isAdminLoading] = useAdmin()
+    const [isHR, isHRLoading] = useHR()
 
-    const isHr = true;
-    const isEmployee = false;
+    const { user } = useAuth()
+
 
 
 
@@ -18,7 +23,7 @@ const DashBoard = () => {
                 <div className='w-64 min-h-screen bg-slate-700 text-white border-2 border-gray-500 '>
                     <ul className='flex nav flex-col gap-3 p-10 font-semibold text-xl'>
                         {
-                            isHr &&
+                            isHR &&
                             <>
                                 <li className='border text-center  rounded-md py-2'><NavLink to='/dashboard/hrhome'>HR Home</NavLink></li>
                                 <li className='border text-center  rounded-md py-2'><NavLink to='/dashboard/employeelist'>Employee List</NavLink></li>
@@ -26,13 +31,20 @@ const DashBoard = () => {
                             </>
                         }
                         {
-                            isEmployee &&
+                           user  && !isAdmin && !isHR &&
                             <>
                                 <li className='border text-center rounded-md py-2'><NavLink to='/dashboard/userHome'>Home</NavLink></li>
                                 <li className='border text-center  rounded-md py-2'><NavLink to='/dashboard/workSheet'>Work Sheet</NavLink></li>
                                 <li className='border text-center rounded-md py-2'><NavLink to='/dashboard/paymentHistory'>Payment History</NavLink></li>
                             </>
 
+                        }
+                        {
+                            isAdmin &&
+                            <>
+                                <li className='border text-center rounded-md py-2'><NavLink to='/dashboard/adminhome'>Admin Home</NavLink></li>
+                                <li className='border text-center  rounded-md py-2'><NavLink to='/dashboard/allEmployees'>All Employees</NavLink></li>
+                            </>
                         }
                     </ul>
                 </div>

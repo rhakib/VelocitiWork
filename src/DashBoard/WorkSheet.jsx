@@ -6,6 +6,7 @@ import useAuth from '../Hooks/useAuth';
 import Swal from 'sweetalert2';
 import { useQuery } from '@tanstack/react-query';
 import { Badge, Table } from 'keep-react';
+import moment from 'moment/moment';
 
 const WorkSheet = () => {
 
@@ -21,19 +22,34 @@ const WorkSheet = () => {
         queryKey: ['tasks', user?.email],
         queryFn: getTasks
     })
-    console.log(tasks);
+
 
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm()
 
+
+
     const onSubmit = async (data) => {
         console.log(data)
+        const month = moment(data.date).format('ll')
+        console.log(month);
+        const newMonth = month.split(' ')
+        const submittedMonth = newMonth[0]
+        const submittedYear = newMonth[2]
+
+
+
+
+
+
 
         const tasksInfo = {
             email: user?.email,
             task: data.tasks,
             hours: parseInt(data.hours),
-            date: data.date,
+            date: submittedMonth,
+            year: submittedYear,
+            month: data.date,
             name: user?.displayName,
             photo: user?.photoURL
 
@@ -47,7 +63,6 @@ const WorkSheet = () => {
                 title: "Submitted",
                 text: `Successfully submitted your task for ${data.tasks}`
             });
-            console.log(tasksRes.data);
             refetch()
         }
     }
@@ -60,7 +75,7 @@ const WorkSheet = () => {
                     tasks?.length > 0 && <>
                         <h2 className='text-4xl text-center text-white mb-4'>Submitted Tasks</h2>
                         <Table className='mb-6'
-                            showCheckbox={true}
+                            showCheckbox={false}
                             showBorder={true}
                             showBorderPosition="right"
                             striped={true}
@@ -79,6 +94,10 @@ const WorkSheet = () => {
                                 </div>
                             </Table.Caption>
                             <Table.Head className='text-lg'>
+
+                                <Table.HeadCell className="min-w-[70px]">
+                                    <p className="ml-4">#</p>
+                                </Table.HeadCell>
                                 <Table.HeadCell className="min-w-[150px]">
                                     <p className="">Tasks</p>
                                 </Table.HeadCell>
@@ -88,7 +107,15 @@ const WorkSheet = () => {
                             </Table.Head>
                             <Table.Body className="divide-y divide-gray-25">
                                 {
-                                    tasks?.map(task => <Table.Row key={task._id} className="bg-white">
+                                    tasks?.map((task, idx) => <Table.Row key={task._id} className="bg-white">
+                                        <Table.Cell>
+                                            <div>
+                                                <p className="-mb-0.5 ml-4 text-body-4 font-medium text-metal-600">
+                                                    {idx + 1}
+                                                </p>
+
+                                            </div>
+                                        </Table.Cell>
                                         <Table.Cell>
                                             <div>
                                                 <p className="-mb-0.5 text-body-4 font-medium text-metal-600">

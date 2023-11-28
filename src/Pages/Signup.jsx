@@ -56,7 +56,7 @@ const Signup = () => {
                 designation: data.designation,
                 salary: data.salary,
                 bankAccount: data.bankAccount,
-                verified: 'no'
+                verified: data.role == 'Employee' ? 'no': "yes"
             }
             const usersRes = await axiosPublic.post('/users', usersInfo)
             if (usersRes.data.insertedId) {

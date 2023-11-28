@@ -3,17 +3,42 @@ import useAuth from '../Hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
+import useGetUsers from '../Hooks/useGetUsers';
+import { useEffect } from 'react';
+import Swal from 'sweetalert2';
 
 const Login = () => {
 
     const { signInUser } = useAuth()
     const [error, setError] = useState()
     const navigate = useNavigate()
+    const [users, ,] = useGetUsers()
+    const [firedUsers, setFiredUsers] = useState(null)  
+
+    useEffect(() => {
+        const filteredUsers = users?.filter(user => user?.fired === 'yes')
+        setFiredUsers(filteredUsers)
+
+    }, [users])
+
+    const emails = firedUsers?.map(item => item.email)
+    console.log(emails);
+
+    
 
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm()
     const onSubmit = (data) => {
         console.log(data)
+
+        if (emails?.find(email=> email == data?.email) ) {
+            Swal.fire({
+                title: "Ooppss!",
+                text: `Your account is banned, please contact support`,
+                icon: "error"
+            });
+            return;
+        }
 
         signInUser(data.email, data.password)
             .then(res => {
@@ -30,10 +55,10 @@ const Login = () => {
                 setError(err.message)
             })
 
-            setTimeout(function() {
-                setError('')
-              }, 3000);
-    
+        setTimeout(function () {
+            setError('')
+        }, 3000);
+
 
 
 
