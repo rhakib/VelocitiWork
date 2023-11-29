@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
 import toast from "react-hot-toast";
+import SocialLogin from "../Components/SocialLogin";
 
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
@@ -21,7 +22,7 @@ const Signup = () => {
     const onSubmit = async (data) => {
         console.log(data)
 
-        
+
         const imageFile = { image: data.photo[0] }
         console.log(imageFile);
         const res = await axiosPublic.post(image_hosting_api, imageFile, {
@@ -32,7 +33,7 @@ const Signup = () => {
         console.log(res.data);
 
         const photo = res.data.data.display_url;
-        
+
         createUser(data.email, data.password)
             .then(res => {
                 updateUserProfile(data.name, photo)
@@ -56,7 +57,7 @@ const Signup = () => {
                 designation: data.designation,
                 salary: data.salary,
                 bankAccount: data.bankAccount,
-                verified: data.role == 'Employee' ? 'no': "yes"
+                verified: data.role == 'Employee' ? 'no' : "yes"
             }
             const usersRes = await axiosPublic.post('/users', usersInfo)
             if (usersRes.data.insertedId) {
@@ -148,6 +149,7 @@ const Signup = () => {
                                     Already have an account? <Link to='/login' className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</Link>
                                 </p>
                             </form>
+                            <SocialLogin></SocialLogin>
                         </div>
                     </div>
                 </div>

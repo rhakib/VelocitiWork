@@ -1,20 +1,30 @@
 import { Badge, Button, Table } from 'keep-react';
-import React from 'react';
-import useGetUsers from '../Hooks/useGetUsers';
 import useAxiosSecure from '../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+
 
 const AllEmployees = () => {
 
-    const [users, refetch, isLoading] = useGetUsers()
+      
     const [verifiedUser, setVerifiedUser] = useState([])
 
     const axiosSecure = useAxiosSecure()
 
+    const getUsers = async () => {
+        const res = await axiosSecure.get('/users/admin')
+        return res.data;
+    }
+
+    const { data: users, refetch, isLoading } = useQuery({
+        queryKey: ['users'],
+        queryFn: getUsers
+    })
+
     useEffect(() => {
-        const filteredUser = users?.filter(user => user?.verified == 'yes' )
+        const filteredUser = users?.filter(user => user?.verified == 'yes')
         setVerifiedUser(filteredUser)
         console.log(filteredUser);
 
@@ -40,6 +50,12 @@ const AllEmployees = () => {
     }
     const handleFire = (user) => {
 
+        const firedUsers = {
+            email: user?.email,
+            name: user?.name,
+
+        }
+
         Swal.fire({
             title: "Are you sure you want Fire?",
             text: "He won't be able to access his account anymore!",
@@ -48,20 +64,35 @@ const AllEmployees = () => {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, Fire!"
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
+
+
                 axiosSecure.put(`/users/admin/${user?._id}`)
-            .then(res => {
-                console.log(res.data);
-                if (res.data.modifiedCount > 0) {
-                    refetch()
-                    Swal.fire({
-                        title: "Fired!",
-                        text: `${user.name} is Fired, he can't access anymore in his account`,
-                        icon: "success"
-                    });
-                }
-            })
+                    .then(res => {
+                        console.log(res.data);
+                        if (res.data.modifiedCount > 0) {
+                            refetch()
+                            Swal.fire({
+                                title: "Fired!",
+                                text: `${user.name} is Fired, he can't access anymore in his account`,
+                                icon: "success"
+                            });
+                        }
+                    })
+
+                axiosSecure.post('/firedUsers', firedUsers)
+                    .then(res => {
+                        console.log(res.data);
+                        if (res.data.insertedId) {
+                            // refetch()
+                            // Swal.fire({
+                            //     title: "Fired!",
+                            //     text: `${user.name} is Fired, he can't access anymore in his account`,
+                            //     icon: "success"
+                            // });
+                        }
+                    })
             }
         });
 
@@ -81,7 +112,7 @@ const AllEmployees = () => {
                     <div className="my-5 flex items-center justify-between px-6">
                         <div className="flex items-center gap-5">
                             <p className="text-body-1 font-semibold text-metal-600">
-                               All Employees:
+                                All Employees:
                             </p>
                             <Badge size="xl" colorType="light" color="gray">
                                 {verifiedUser?.length}
@@ -128,13 +159,13 @@ const AllEmployees = () => {
                             </Table.Cell>
                             <Table.Cell>
                                 <div className="flex items-center gap-1">
-                                   {user?.fired === 'yes' ? <p className='bg-gray-500 px-2 py-1 rounded-md text-white'>Make HR</p> : user?.role === 'HR' ? <Button size="md" color="success">HR</Button>:  <Button onClick={()=> handleMakeHR(user)} className="rounded-xl" size="sm" type="primary">
+                                    {user?.fired === 'yes' ? <p className='bg-gray-500 px-2 py-1 rounded-md text-white'>Make HR</p> : user?.role === 'HR' ? <Button size="md" color="success">HR</Button> : <Button onClick={() => handleMakeHR(user)} className="rounded-xl" size="sm" type="primary">
                                         Make HR
                                     </Button>}
                                 </div>
                             </Table.Cell>
                             <Table.Cell>
-                                {user?.fired === 'yes' ? <p className='text-red-600 ml-4 font-bold'>Fired</p> : <Button onClick={()=> handleFire(user)} size="sm" className='bg-red-500 px-2 hover:bg-red-700  rounded-md text-white'>
+                                {user?.fired === 'yes' ? <p className='text-red-600 ml-4 font-bold'>Fired</p> : <Button onClick={() => handleFire(user)} size="sm" className='bg-red-500 px-2 hover:bg-red-700  rounded-md text-white'>
                                     Fire
                                 </Button>}
                             </Table.Cell>

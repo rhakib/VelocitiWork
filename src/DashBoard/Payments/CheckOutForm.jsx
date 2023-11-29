@@ -1,13 +1,11 @@
-// import React, { useEffect, useState } from 'react';
-import useGetUsers from '../../Hooks/useGetUsers';
-
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { Button, DatePicker } from 'keep-react';
+import {  DatePicker } from 'keep-react';
 import useGetPayments from '../../Hooks/useGetPayments';
 import Swal from 'sweetalert2';
 import useAuth from '../../Hooks/useAuth';
+import useAxiosPublic from '../../Hooks/useAxiosPublic';
 
 const CheckOutForm = ({ user, setShowModal, showModal }) => {
 
@@ -18,21 +16,19 @@ const CheckOutForm = ({ user, setShowModal, showModal }) => {
     // const [trxId, setTrxId] = useState('')
     const [clientSecret, setClientSecret] = useState('')
     const { user: currentUser } = useAuth()
-    const [paidDate, setPaidDate] = useState(null)
     const salary = user?.salary;
-    const paidMonth = paidDate?.payMonth
-
+    
     //hooks
     const stripe = useStripe()
     const elements = useElements()
-    // const [, refetch] = useGetUsers()
     const [payments, refetch] = useGetPayments()
 
-
-    console.log(paidMonth, payMonth);
+    
 
 
     const axiosSecure = useAxiosSecure()
+
+    const axiosPublic = useAxiosPublic()
 
     useEffect(() => {
 
@@ -46,16 +42,20 @@ const CheckOutForm = ({ user, setShowModal, showModal }) => {
 
     }, [axiosSecure, salary])
 
-
-    useEffect(() => {
-        payments?.map(date => setPaidDate(date))
-
-    }, [payments])
-
-
     const handleSubmit = async (event) => {
 
         event.preventDefault()
+
+
+        const data = await axiosPublic.post('/route', { email: user?.email, payMonth })
+        const isExist = data.data.success
+        if (!isExist) {
+            return Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "You already paid this month"
+            });
+        }
 
 
         if (!stripe || !elements) {
@@ -95,14 +95,8 @@ const CheckOutForm = ({ user, setShowModal, showModal }) => {
             return;
         }
         else {
-            if (paidMonth == payMonth) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "You already paid this month"
-                });
-            }
-            else {
+
+            {
                 const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
                     payment_method: {
                         card: card,
@@ -137,7 +131,8 @@ const CheckOutForm = ({ user, setShowModal, showModal }) => {
                             trxId: paymentIntent?.id,
                             salary,
                             email: user?.email,
-                            paidBy: currentUser?.email
+                            paidBy: currentUser?.email,
+                            id: user?._id
 
 
                         }

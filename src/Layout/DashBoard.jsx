@@ -19,7 +19,7 @@ const DashBoard = () => {
     return (
         <div className='bg-black'>
             <NavBar></NavBar>
-            <div className='flex max-w-screen-xl mx-auto pt-20'>
+            <div className='flex max-w-screen-xl mx-auto pt-4'>
                 <div className='w-64 min-h-screen bg-slate-700 text-white border-2 border-gray-500 '>
                     <ul className='flex nav flex-col gap-3 p-10 font-semibold text-xl'>
                         {

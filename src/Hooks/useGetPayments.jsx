@@ -9,13 +9,13 @@ const useGetPayments = () => {
         return res.data;
     }
 
-    const { data: payments, refetch } = useQuery({
+    const { data: payments, refetch, isLoading, isPending } = useQuery({
         queryKey: ['payments'],
         queryFn: getPayments
     })
 
 
-    return [payments, refetch]
+    return [payments, refetch, isLoading, isPending]
 };
 
 export default useGetPayments;

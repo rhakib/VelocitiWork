@@ -7,7 +7,7 @@ const useGetUsers = () => {
     const axiosSecure = useAxiosSecure()
 
     const getUsers = async () => {
-        const res = await axiosSecure.get('/users')
+        const res = await axiosSecure.get('/users/hr')
         return res.data;
     }
 

@@ -1,37 +1,45 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../Hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
-import useGetUsers from '../Hooks/useGetUsers';
-import { useEffect } from 'react';
 import Swal from 'sweetalert2';
+import useAxiosPublic from '../Hooks/useAxiosPublic';
+import { useQuery } from '@tanstack/react-query';
+import SocialLogin from '../Components/SocialLogin';
 
 const Login = () => {
 
     const { signInUser } = useAuth()
     const [error, setError] = useState()
     const navigate = useNavigate()
-    const [users, ,] = useGetUsers()
-    const [firedUsers, setFiredUsers] = useState(null)  
+    const location = useLocation()    
 
-    useEffect(() => {
-        const filteredUsers = users?.filter(user => user?.fired === 'yes')
-        setFiredUsers(filteredUsers)
+    const from = location?.state?.from?.pathname || '/'
+    console.log(location?.state);
 
-    }, [users])
+  
+    const axiosPublic = useAxiosPublic()
 
-    const emails = firedUsers?.map(item => item.email)
-    console.log(emails);
+    const getFiredUsers = async () => {
+        const res = await axiosPublic.get('/firedUsers')
+        return res.data;
+    }
 
-    
+    const { data: firedUser} = useQuery({
+        queryKey: ['firedUser'],
+        queryFn: getFiredUsers
+    })  
+
+    const emails = firedUser?.map(item => item.email)
+    console.log(emails);   
 
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm()
     const onSubmit = (data) => {
         console.log(data)
 
-        if (emails?.find(email=> email == data?.email) ) {
+        if (emails?.find(email=> email.toLowerCase() == data?.email.toLowerCase()) ) {
             Swal.fire({
                 title: "Ooppss!",
                 text: `Your account is banned, please contact support`,
@@ -46,7 +54,7 @@ const Login = () => {
                 if (res.user) {
                     reset()
                     toast.success('Successfully logged in')
-                    navigate('/')
+                    navigate(from)
 
                 }
             })
@@ -87,10 +95,11 @@ const Login = () => {
                                 {
                                     error && <p className='text-red-600'> {error}</p>
                                 }
-                                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                                <p className="text-sm dark:font-light text-black dark:text-gray-400">
                                     Don&#39;t have an account? <Link to='/signup' className="font-medium text-primary-600 hover:underline dark:text-primary-500">Register here</Link>
                                 </p>
                             </form>
+                            <SocialLogin></SocialLogin>
                         </div>
                     </div>
                 </div>

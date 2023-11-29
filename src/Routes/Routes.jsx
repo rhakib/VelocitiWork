@@ -14,6 +14,9 @@ import Progress from "../DashBoard/Progress";
 import AdminHome from "../DashBoard/AdminHome";
 import AllEmployees from "../DashBoard/AllEmployees";
 import UserDetails from "../DashBoard/UserDetails";
+import AdminRoute from "./AdminRoute";
+import HrRoute from "./HrRoute";
+import PrivateRoute from "./PrivateRoute";
 
 
 const router = createBrowserRouter([
@@ -41,44 +44,47 @@ const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: <DashBoard></DashBoard>,
+    element: <PrivateRoute><DashBoard></DashBoard></PrivateRoute>,
     children: [
+      //hr routes
       {
         path: 'employeelist',
-        element: <EmployeeList></EmployeeList>
+        element: <HrRoute><EmployeeList></EmployeeList></HrRoute>
       },
       {
         path: 'hrhome',
-        element: <HrHome></HrHome>
-      },
-      {
-        path: 'paymentHistory',
-        element: <PaymentHistory></PaymentHistory>
-      },
-      {
-        path: 'workSheet',
-        element: <WorkSheet></WorkSheet>
-      },
-      {
-        path: 'userHome',
-        element: <UserHome></UserHome>
+        element: <HrRoute><HrHome></HrHome></HrRoute>
       },
       {
         path: 'progress',
-        element: <Progress></Progress>
-      },
-      {
-        path: 'adminhome',
-        element: <AdminHome></AdminHome>
-      },
-      {
-        path: 'allEmployees',
-        element: <AllEmployees></AllEmployees>
+        element: <HrRoute><Progress></Progress></HrRoute>
       },
       {
         path: 'employeelist/userdetails/:id',
-        element: <UserDetails></UserDetails>
-      }
+        element: <HrRoute><UserDetails></UserDetails></HrRoute>
+      },
+      //user/employee routes
+      {
+        path: 'paymentHistory',
+        element: <PrivateRoute><PaymentHistory></PaymentHistory></PrivateRoute>
+      },
+      {
+        path: 'workSheet',
+        element: <PrivateRoute><WorkSheet></WorkSheet></PrivateRoute>
+      },
+      {
+        path: 'userHome',
+        element: <PrivateRoute><UserHome></UserHome></PrivateRoute>
+      },
+      //admin routes
+      {
+        path: 'adminhome',
+        element: <AdminRoute><AdminHome></AdminHome></AdminRoute>
+      },
+      {
+        path: 'allEmployees',
+        element: <AdminRoute><AllEmployees></AllEmployees></AdminRoute>
+      },
     ]
   }
 
