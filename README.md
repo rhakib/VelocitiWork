@@ -1,8 +1,10 @@
-# React + Vite
+**Website Name:** VelocitiWork-Ventures <br>
+**Website link:** https://velocitiwork-ventures.web.app/
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Features:**
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. **Creating Account:** User will be able to create an account by specific role in our website like HR or Employee.
+2. **Explore rooms:** Employee will be able to submit work through worksheet page.
+3. **Booking room:** HR can pay to each employee through a payment method named Stripe.
+4. **My bookings:** HR will be able to see stats of an employee
+5. **Giving reviews:** Admin will be able to Fire an Employee or an HR.
