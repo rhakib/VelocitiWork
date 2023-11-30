@@ -6,7 +6,7 @@ const Team = () => {
     return (
         <div>
             <h2 className="text-center text-white text-5xl mt-12 font-medium">Our Team</h2>
-            <p className="text-center text-white w-1/2 mx-auto text-lg mt-6">"Leading with a vision, our General Manager orchestrates the symphony of services, ensuring every guest feels at home."</p>
+            <p className="text-center text-white w-1/2 mx-auto text-lg mt-6">"Leading with a vision, our General Manager orchestrates the symphony of services, ensuring the best services in the industry."</p>
             <div className=' bg-base-300'>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 p-10 md:p-20 max-w-7xl mx-auto">
                 <div data-aos="zoom-out-up" className="flex flex-col items-center bg-gray-800 py-10 rounded-lg">
