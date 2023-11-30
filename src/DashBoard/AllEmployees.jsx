@@ -24,7 +24,7 @@ const AllEmployees = () => {
     })
 
     useEffect(() => {
-        const filteredUser = users?.filter(user => user?.verified == 'yes')
+        const filteredUser = users?.filter(user => user?.verified == 'yes' && user?.role == 'Employee' || user?.role == 'HR' )
         setVerifiedUser(filteredUser)
         console.log(filteredUser);
 
@@ -57,7 +57,7 @@ const AllEmployees = () => {
         }
 
         Swal.fire({
-            title: "Are you sure you want Fire?",
+            title: "Are you sure you want to Fire?",
             text: "He won't be able to access his account anymore!",
             icon: "warning",
             showCancelButton: true,

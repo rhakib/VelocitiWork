@@ -6,9 +6,11 @@ import toast from 'react-hot-toast';
 import { Spinner } from 'keep-react';
 
 const HrRoute = ({children}) => {
-    const { user, loading } = useAuth()
+    const { user, loading, logOutUser } = useAuth()
     const [isHR, isHRLoading] = useHR()
     const location = useLocation()
+
+    console.log(isHR);
 
     if (loading || isHRLoading) {
         return <div> <Spinner color="info" size="lg" /></div>
@@ -18,7 +20,9 @@ const HrRoute = ({children}) => {
         return children;
     }
 
-    return <Navigate to='/login' state={{ from: location }} replace ></Navigate>
+    logOutUser()
+    toast.error('Unauthorized access')
+    return <Navigate to='/login' ></Navigate>
 };
 
 export default HrRoute;

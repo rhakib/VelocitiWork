@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
 import toast from "react-hot-toast";
@@ -15,6 +15,7 @@ const Signup = () => {
 
     const { createUser, updateUserProfile } = useAuth()
     const axiosPublic = useAxiosPublic()
+    const navigate = useNavigate()
 
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm()
@@ -39,8 +40,9 @@ const Signup = () => {
                 updateUserProfile(data.name, photo)
                 if (res.user) {
                     reset()
-
+                    
                 }
+                navigate('/')
 
 
             })
@@ -62,6 +64,7 @@ const Signup = () => {
             const usersRes = await axiosPublic.post('/users', usersInfo)
             if (usersRes.data.insertedId) {
                 toast.success('Successfully registered!')
+                navigate('/')
                 console.log(usersRes.data);
             }
         }

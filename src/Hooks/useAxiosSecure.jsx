@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useAuth from './useAuth';
-import toast from 'react-hot-toast';
+
 
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:5000'
+    baseURL: 'https://velociti-work-ventures-server.vercel.app'
 })
 
 const useAxiosSecure = () => {
@@ -31,9 +31,8 @@ const useAxiosSecure = () => {
         // console.log(status);
         //for 401 or 403 logout the user and move the user to the login
         if (status === 401 || status === 403) {
-            await logOutUser()
             navigate('/login')
-            toast.error('Unauthorized access')
+            await logOutUser()            
         }
         return Promise.reject(error)
     })

@@ -1,5 +1,5 @@
 import { Navbar, Button } from "keep-react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
 import './Navbar.css'
 import useAdmin from "../Hooks/useAdmin";
@@ -10,6 +10,7 @@ const NavBar = () => {
     const { user, logOutUser } = useAuth()
     const [isAdmin, ,] = useAdmin()
     const [isHR, ,] = useHR()
+    const navigate = useNavigate()
  
 
 
@@ -17,6 +18,11 @@ const NavBar = () => {
 
     const handleDropDown = () => {
         setDropDown(!dropDown)
+    }
+    const handleLogOut = () => {
+        navigate('/login')
+        logOutUser()
+
     }
 
     return (
@@ -63,18 +69,24 @@ const NavBar = () => {
                                            
                                        
                                             
-                                                <button onClick={()=>logOutUser()} type="submit" className="text-gray-700 block w-full px-4 py-2 text-left text-sm" role="menuitem" tabIndex="-1" id="menu-item-3">Sign out</button>
+                                                <button onClick={handleLogOut} type="submit" className="text-gray-700 block w-full px-4 py-2 text-left text-sm" role="menuitem" tabIndex="-1" id="menu-item-3">Sign out</button>
                                            
                                         </div>
                                     </div>
                                 </div>
 
                             </>
-                            : <Link to='/login'>
+                            : <><Link to='/signup'>
+                                <Button className="rounded-3xl" size="sm" type="primary">
+                                    Register
+                                </Button>
+                            </Link>
+                            
+                            <Link to='/login'>
                                 <Button className="rounded-3xl" size="sm" type="primary">
                                     Login
                                 </Button>
-                            </Link>}
+                            </Link> </> }
                         <Navbar.Toggle />
                     </Navbar.Container>
                 </Navbar.Container>

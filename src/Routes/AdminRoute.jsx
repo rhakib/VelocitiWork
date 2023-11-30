@@ -2,10 +2,11 @@ import { Navigate, useLocation } from "react-router-dom";
 import useAdmin from "../Hooks/useAdmin";
 import useAuth from "../Hooks/useAuth";
 import { Spinner } from "keep-react";
+import toast from "react-hot-toast";
 
 
 const AdminRoute = ({ children }) => {
-    const { user, loading } = useAuth()
+    const { user, loading, logOutUser } = useAuth()
     const [isAdmin, isAdminLoading] = useAdmin()
     const location = useLocation()
 
@@ -16,8 +17,11 @@ const AdminRoute = ({ children }) => {
     if (user && isAdmin) {
         return children
     }
+    
 
-    return <Navigate to='/login' state={{ from: location }} replace ></Navigate>
+    toast.error('Unauthorized access')
+    logOutUser()
+    return <Navigate to='/login' ></Navigate>
 
 
 

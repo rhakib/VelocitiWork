@@ -17,12 +17,14 @@ import UserDetails from "../DashBoard/UserDetails";
 import AdminRoute from "./AdminRoute";
 import HrRoute from "./HrRoute";
 import PrivateRoute from "./PrivateRoute";
+import ErrorPage from "../Pages/ErrorPage";
 
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root></Root>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: '/',
@@ -44,7 +46,8 @@ const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: <PrivateRoute><DashBoard></DashBoard></PrivateRoute>,
+    element: <DashBoard></DashBoard>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       //hr routes
       {

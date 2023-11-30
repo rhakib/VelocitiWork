@@ -7,6 +7,7 @@ import useGetUsers from "../Hooks/useGetUsers";
 import Payments from "./Payments/Payments";
 import { Spinner } from "keep-react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 
 
@@ -15,8 +16,16 @@ const EmployeeList = () => {
     const axiosSecure = useAxiosSecure()
     const [showModal, setShowModal] = useState(false);
     const [user, setUser] = useState(null)
+    const [employee, setEmployee] = useState([])
 
     const [users, refetch, isLoading] = useGetUsers()
+
+    useEffect(() => {
+        const filteredUser = users?.filter(user => user?.role == 'Employee')
+        setEmployee(filteredUser)
+        console.log(filteredUser);
+
+    }, [users])
 
 
 
@@ -106,7 +115,7 @@ const EmployeeList = () => {
                 </Table.Head>
                 <Table.Body className="divide-y divide-gray-25">
                     {
-                        users?.map(user => <Table.Row key={user._id} className="bg-white">
+                        employee?.map(user => <Table.Row key={user._id} className="bg-white">
                             <Table.Cell>
                                 <div className="flex items-center gap-3">
                                     <div className="flex items-center gap-4">

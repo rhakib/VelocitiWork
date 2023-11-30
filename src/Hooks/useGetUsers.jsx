@@ -11,7 +11,7 @@ const useGetUsers = () => {
         return res.data;
     }
 
-    const { data: users, refetch, isLoading } = useQuery({
+    const { data: users = [], refetch, isLoading } = useQuery({
         queryKey: ['users'],
         queryFn: getUsers
     })
