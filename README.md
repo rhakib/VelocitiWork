@@ -8,3 +8,15 @@
 3. **Pay to Employee:** HR can pay to each employee through a payment method named Stripe.
 4. **Employee Stats:** HR will be able to see stats of an employee
 5. **Fire by Admin:** Admin will be able to Fire an Employee or an HR.
+
+**Technologies:**
+
+I have used the following technologies to build this website:
+- HTML 5
+- CSS 3
+- Tailwind
+- JavaScript
+- React
+- Node.js
+- Express.js
+- MongoDb
