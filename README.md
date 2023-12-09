@@ -1,6 +1,6 @@
 **Website Name:** VelocitiWork-Ventures <br>
-**Client side repo:** https://github.com/rhakib/VelocitiWork
-**Server side repo:** https://github.com/rhakib/VelocitiWork-server
+**Client side repo:** https://github.com/rhakib/VelocitiWork  <br>
+**Server side repo:** https://github.com/rhakib/VelocitiWork-server  <br>
 **Website live link:** https://velocitiwork-ventures.web.app/
 
 **Features:**
